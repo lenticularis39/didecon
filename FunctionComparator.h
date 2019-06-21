@@ -374,6 +374,20 @@ private:
   // The global state we will use
   GlobalNumberState* GlobalNumbers;
 
+  int LogReturnValue(const char *Function, int Value, const Instruction *L,
+          const Instruction *R) const {
+    if (llvm::sys::fs::exists("/verbose-off"))
+        return Value;
+    if (Value != 0 || llvm::sys::fs::exists("/verbose-dbg")) {
+        errs() << "Function " << Function << " returned " << Value << "\n";
+        if (L && R)
+            errs() << "\tL (in function " << L->getFunction()->getName()
+                << "): " << *L << "\n\tR (in function " <<
+                R->getFunction()->getName() << "): " << *R << "\n";
+    }
+    return Value;
+  }
+
   template<typename T> int LogReturnValue(const char *Function, int Value,
 		  T *L, T *R) const {
     if (llvm::sys::fs::exists("/verbose-off"))
