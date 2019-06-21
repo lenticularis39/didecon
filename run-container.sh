@@ -4,7 +4,7 @@
 # the provided Dockerfile
 docker run \
 	-ti --security-opt seccomp=unconfined \
-        -m 8g --rm \
+        -m 8g --rm --name didecon \
         --cpus 3 \
 	-v $PWD:/diffkemp:Z \
 	-w /diffkemp \
